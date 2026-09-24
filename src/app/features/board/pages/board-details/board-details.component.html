@@ -1,0 +1,45 @@
+@if (board) {
+
+
+<div class="board__columns">
+    @for (column of board.columns; track column.id) {
+    <div class="column" (dragover)="onDragOver($event)" (drop)="onDrop($event, column.name)">
+        <div class="column__header">
+            <span class="column__dot" [style.background-color]="getColumnColor($index)"></span>
+
+            <h2 class="column__title">{{ column.name }} ({{ column.tasks.length}})</h2>
+
+
+        </div>
+
+        <div class="column__tasks">
+            @for (task of column.tasks; track task.id) {
+
+            <div class="task" draggable="true" (dragstart)="onDragStart($event, task)" (click)="openTaskDetail(task)">
+
+                <p class="task__title">
+                    {{ task.title }}
+                </p>
+
+                <p class="task__subtasks">
+                    {{ task.subtasks.filter(subtask => subtask.completed).length }}
+                    of
+                    {{ task.subtasks.length }}
+                    subtasks
+                </p>
+
+            </div>
+
+            }
+        </div>
+    </div>
+
+    }
+
+</div>
+@if (isTaskDetailOpen && selectedTask) {
+<app-task-card-details [isOpen]="isTaskDetailOpen" [boardId]="board!.id" [task]="selectedTask"
+    [statusOptions]="getStatusOptions()" (closeModal)="closeTaskDetail()" />
+}
+
+}

@@ -1,0 +1,65 @@
+<div class="modal__overlay" (click)="onOverlayClick($event)">
+    <div class="modal">
+
+        <div class="modal__header">
+            <h2 class="modal__title">{{ task.title }}</h2>
+            <div class="modal__menu-wrapper">
+                <button class="modal__btn-menu" aria-label="dots-btn" (click)="toggleDotsMenu()">
+                    <img class="modal__menu-icon" src="assets/menu.webp" alt="menu"></button>
+                @if (isDotsMenuOpen) {
+
+                <div class="modal__menu">
+
+
+                    <button class="modal__menu-item" aria-label="edit-btn" (click)="openEditTask()">
+                        Edit Task
+                    </button>
+
+                    <button class="modal__menu-item modal__menu-item--delete" aria-label="delete-btn"
+                        (click)="deleteTask()">
+                        Delete Task
+                    </button>
+
+                </div>
+
+                }
+            </div>
+        </div>
+
+        @if (task.description) {
+        <p class="modal__description">{{ task.description }}</p>
+        }
+
+        <div class="modal__form-group">
+            <label class="modal__label">
+                Subtasks ({{ getCompletedCount() }} of {{ task.subtasks.length }})
+            </label>
+
+            <div class="modal__subtask">
+                @for (subtask of task.subtasks; track subtask.id) {
+                <label class="modal__subtask-item" [class.subtask-item__done]="subtask.completed">
+                    <input type="checkbox" [checked]="subtask.completed" (change)="toggleSubtask(subtask.id)" />
+                    <span class="modal__subtask-item--title">{{ subtask.title }}</span>
+                </label>
+                }
+            </div>
+        </div>
+
+        <div class="modal__form-group">
+            <label class="modal__label" for="task-status">Status</label>
+            <select id="task-status" class="modal__status-select" [value]="task.status"
+                (change)="onStatusChange($event)">
+                @for (option of statusOptions; track option) {
+                <option class="modal__select__option" [value]="option">{{ option }}</option>
+                }
+            </select>
+        </div>
+
+    </div>
+</div>
+
+
+@if (isTaskModalOpen) {
+<app-create-task [isOpen]="isTaskModalOpen" [taskToEdit]="taskToEdit" (closeModal)="closeTaskModal()"
+    (taskCreated)="closeTaskModal()" />
+}

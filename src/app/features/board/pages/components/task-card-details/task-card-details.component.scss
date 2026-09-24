@@ -1,0 +1,132 @@
+.modal__overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal {
+    width: 480px;
+    max-width: 100%;
+    padding: 32px;
+    border-radius: 10px;
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 24px;
+    }
+
+    &__btn-menu {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    &__menu-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    &__menu-wrapper {
+        position: relative;
+
+    }
+
+    &__menu {
+        position: absolute;
+        top: 0px;
+        right: 30px;
+        width: 180px;
+        padding: 8px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        z-index: 1000;
+
+        &-item {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &--delete {
+                color: var(--color-danger);
+            }
+        }
+    }
+
+    &__description {
+        color: var(--color-text-secondary);
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+    &__form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 24px;
+    }
+
+    &__label {
+        color: var(--color-text-secondary);
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    &__subtask {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        &-item--title {
+            margin-left: 8px;
+            font-weight: 700;
+        }
+    }
+
+
+    &__status-select {
+        width: 100%;
+        background-color: transparent;
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 8px 16px;
+        color: var(--color-text-primary);
+        font-size: 14px;
+        outline: none;
+        margin-bottom: 3px;
+        transition: 0.2s;
+
+        &:focus {
+            border-color: var(--color-primary-hover);
+        }
+
+    }
+
+    &__select__option {
+        background-color: var(--color-surface);
+    }
+
+}

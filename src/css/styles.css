@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-bg: #2B2C37;
+  --color-surface: #20212C;
+  --color-primary: #625FC7;
+  --color-primary-hover: #827dd4;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #acbcd4;
+  --color-border: #3E3F4E;
+  --color-task: #23252F;
+  --color-danger: #ea5555;
+  --color-create: #a3a2f5;
+}
+
+:root.light {
+  --color-bg: #FFFFFF;
+  --color-surface: #F4F7FD;
+  --color-primary: #625FC7;
+  --color-primary-hover: #827dd4;
+  --color-text-primary: #000;
+  --color-text-secondary: #5f6772;
+  --color-border: #E4EBFA;
+  --color-task: #EBF0FB;
+  --color-danger: #ea5555;
+  --color-create: #625FC7;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-surface);
+  font-family: "inter", sans-serif;
+}
+
+.app-layout.sidebar-hidden .navbar,
+.app-layout.sidebar-hidden .board__columns {
+  margin-left: 0;
+}/*# sourceMappingURL=styles.css.map */

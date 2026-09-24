@@ -1,0 +1,64 @@
+<div class="sidebar" [class.sidebar__hidden]="isSidebarHidden">
+    <div class="sidebar__logo">
+        <img class="sidebar__logo-img" src="assets/logo-mobile.svg" alt="logo">
+        <span class="sidebar__logo-text">Kanban</span>
+    </div>
+
+
+    <div class="sidebar__boards">
+        <p class="sidebar__boards-label">ALL BOARDS ({{boardList.length}})</p>
+
+        <nav class="sidebar__board">
+            @for (board of boardList; track board.id) {
+
+
+            <button class="sidebar__board-item " aria-label="board-btn"
+                [class.board-item__active]="activeBoardId === board.id" (click)="selectBoard(board.id)">
+                <img class="sidebar__board-item-icon" src="assets/side-icon.svg" alt="icon">
+                {{ board.name }}
+            </button>
+
+            }
+            <button class="sidebar__board-item sidebar__board-item-new" aria-label="add-btn" (click)="openBoardModal()">
+                <img class="sidebar__board-item-icon" src="assets/side-icon.svg" alt="icon">
+                + Create New Board
+            </button>
+
+
+
+
+        </nav>
+    </div>
+
+    <div class="sidebar__footer">
+        <div class="sidebar__theme-toggle">
+            <img src="assets/sun.svg" class="sidebar__theme-icon" alt="light mode">
+            <div class="sidebar__theme-switch" (click)="toggleTheme()">
+                <label for="theme">.</label>
+                <input type="checkbox" id="theme" [checked]="isDarkMode">
+
+                <span class="sidebar__theme-slider"></span>
+            </div>
+            <img src="assets/moon.svg" class="sidebar__theme-icon" alt="dark mode">
+        </div>
+
+        <button class="sidebar__hide-button" aria-label="hide-btn" (click)="toggleSidebar()">
+            <img src="assets/hide.svg" class="sidebar__eye-icon" alt="hide">
+            Hide Sidebar
+        </button>
+    </div>
+
+</div>
+@if (isSidebarHidden) {
+
+<button class="sidebar__show-button" aria-label="show-btn" (click)="toggleSidebar()">
+    <img src="assets/show.svg" class="sidebar__eye-icon" alt="show sidebar">
+</button>
+
+}
+
+@if (isBoardModalOpen) {
+
+<app-create-board [isOpen]="isBoardModalOpen" (closeModal)="closeBoardModal()" />
+
+}

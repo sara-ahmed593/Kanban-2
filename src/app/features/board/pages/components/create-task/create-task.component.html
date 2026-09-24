@@ -1,0 +1,97 @@
+<div class="modal__overlay" (click)="onOverlayClick($event)">
+    <form class="modal" [formGroup]="taskForm" (ngSubmit)="onCreateTask()">
+
+        <h2 class="modal__title">
+            {{ taskToEdit ? 'Edit Task' : 'Add New Task' }}
+        </h2>
+
+        <div class="modal__form-group">
+            @let titleControl = taskForm.get("title");
+            <label class="modal__label" for="title">Title</label>
+            <input id="title" formControlName="title" class="modal__input" type="text"
+                placeholder="e.g. Take coffee break" />
+            @if (
+            titleControl?.errors &&
+            titleControl?.touched
+            ) {
+
+            @if (titleControl?.getError("required")) {
+
+            <span class="modal__error">
+                Title is required.
+            </span>
+
+            }
+
+            @else if (
+            titleControl?.getError("minlength")
+            ) {
+
+            <span class="modal__error">
+                Title must be at least 3 characters
+            </span>
+
+            }
+
+            }
+
+        </div>
+
+        <div class="modal__form-group">
+            <label class="modal__label" for="description">Description</label>
+            <textarea id="description" formControlName="description" class="modal__input text-area" rows="4"
+                placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."></textarea>
+        </div>
+
+        <div class="modal__form-group">
+            <label class="modal__label">Subtasks</label>
+            <div class="modal__subtask">
+                @for (subtask of subtasks; track $index) {
+                <div class="modal__row">
+
+                    <input class="modal__input" type="text" [value]="subtask"
+                        (input)="subtasks[$index] = $any($event.target).value" placeholder="e.g. Make coffee" />
+
+                    <button type="button" aria-label="remove-btn" class="modal__remove" (click)="removeSubtask($index)">
+                        <img src="assets\close-icon.svg" alt="close">
+                    </button>
+                </div>
+                }
+
+            </div>
+            @if ( subtasks.some(subtask => subtask.trim() === '') ) {
+            <span class="modal__error">
+                Subtasks can't be empty.
+            </span>
+
+            }
+            @else if ( subtasks.length == 0 ) {
+            <span class="modal__error">
+                Add at least one Subtask.
+            </span>
+
+            }
+
+            <button class="modal__btn modal__btn-secondary" aria-label="add-btn" type="button" (click)="addSubtask()">
+                + Add New Subtask
+            </button>
+
+        </div>
+
+
+        <div class="modal__form-group">
+            <label class="modal__label" for="status">Status</label>
+            <select id="status" formControlName="status" class="modal__input select-input">
+                @for (option of statusOptions; track option) {
+                <option [value]="option" class="modal__select__option">{{ option }}</option>
+                }
+            </select>
+        </div>
+
+
+        <button class="modal__btn modal__btn-primary" aria-label="mode-btn" type="button" (click)="onCreateTask()">
+            {{ taskToEdit ? 'Save Changes' : 'Create Task' }}
+        </button>
+
+    </form>
+</div>

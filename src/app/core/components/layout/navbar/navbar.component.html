@@ -1,0 +1,63 @@
+<header class="navbar">
+    <div class="navbar__logo">
+        <img class="navbar__logo-img" src="assets/logo-mobile.svg" alt="logo">
+        <h1 class="navbar__logo-title"> {{ boardName }}</h1>
+    </div>
+
+    <button class="navbar__sidebar" aria-label="arrow-btn" (click)="onSidebarToggle()">
+        <img class="navbar__sidebar-icon" src="assets/download.svg" alt="download">
+    </button>
+
+    <div class="navbar__actions">
+        @if(boardName !==""){
+        <button class="btn__add-task" aria-label="add-btn" (click)="toggleTaskModal()">
+            <span class="btn__add-task-icon">+</span>
+            <span class="btn__add-task-text">Add New Task</span>
+        </button>
+        }
+        @if (isTaskModalOpen) {
+
+        <app-create-task [isOpen]="isTaskModalOpen" (closeModal)="toggleTaskModal()" />
+
+        }
+
+        <button class="navbar__menu-button" aria-label="dots-btn" (click)="toggleMenu()">
+            <img class="navbar__menu-button-icon" src="assets/menu.webp" alt="menu">
+        </button>
+        <div class="navbar__menu-wrapper">
+            @if (isDotsMenuOpen) {
+            @if(boardName ==""){
+            <div class="navbar__board">
+
+                <button class="navbar__board-item" aria-label="edit-btn" (click)="openEditBoard()">
+                    Add Board
+                </button>
+
+            </div>
+            }
+            @else{
+            <div class="navbar__board">
+
+
+                <button class="navbar__board-item" aria-label="edit-btn" (click)="openEditBoard()">
+                    Edit Board
+                </button>
+
+
+                <button class="navbar__board-item navbar__board-item--delete" aria-label="delete-btn"
+                    (click)="deleteBoard()">
+                    Delete Board
+                </button>
+
+            </div>
+            }
+            }
+        </div>
+    </div>
+</header>
+
+@if (isBoardModalOpen) {
+
+<app-create-board [isOpen]="isBoardModalOpen" [boardToEdit]="boardToEdit" (closeModal)="closeBoardModal()" />
+
+}
