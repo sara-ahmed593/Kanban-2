@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, Simp
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Task } from '../../interface/board.interface';
-import { BoardService } from './../../services/board.service';
+import { BoardService } from '../../services/board.service';
 
 @Component({
   selector: 'app-create-task',

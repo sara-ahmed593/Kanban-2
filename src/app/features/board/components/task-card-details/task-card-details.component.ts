@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Task } from '../../interface/board.interface';
-import { BoardService } from './../../services/board.service';
+import { BoardService } from '../../services/board.service';
 import { CreateTaskComponent } from '../create-task/create-task.component';
 
 @Component({

@@ -1,12 +1,9 @@
-import { BoardService } from './../../../../features/board/pages/services/board.service';
-import { Board } from '../../../../features/board/pages/interface/board.interface';
+import { BoardService } from '../../../features/board/services/board.service';
+import { Board } from '../../../features/board/interface/board.interface';
 import { Router } from '@angular/router';
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { CreateTaskComponent } from '../../../../features/board/pages/components/create-task/create-task.component';
-import { CreateBoardComponent } from '../../../../features/board/pages/components/create-board/create-board.component';
-
-
-
+import { CreateTaskComponent } from '../../../features/board/components/create-task/create-task.component';
+import { CreateBoardComponent } from '../../../features/board/components/create-board/create-board.component';
 
 @Component({
   selector: 'app-navbar',

@@ -6,7 +6,7 @@ export const routes: Routes = [
     {
         path: '',
         loadComponent: () =>
-            import('../app/core/components/layout/dash-board-layout/dash-board-layout.component')
+            import('../app/core/layout/dash-board-layout/dash-board-layout.component')
                 .then(c => c.DashBoardLayoutComponent),
         children: [
             {

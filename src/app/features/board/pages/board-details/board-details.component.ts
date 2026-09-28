@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BoardService } from './../../../../features/board/pages/services/board.service';
-import { Board, Task } from '../../../../features/board/pages/interface/board.interface';
-import { TaskCardDetailsComponent } from '../components/task-card-details/task-card-details.component';
+import { BoardService } from '../../services/board.service';
+import { Board, Task } from '../../interface/board.interface';
+import { TaskCardDetailsComponent } from '../../components/task-card-details/task-card-details.component';
 
 @Component({
   selector: 'app-board-details',

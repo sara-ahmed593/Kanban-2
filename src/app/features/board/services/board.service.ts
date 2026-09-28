@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Board, Task } from '../interface/board.interface';
-import { StorageService } from '../../../../core/services/storage.service';
+import { StorageService } from '../../../core/services/storage.service';
 
 @Injectable({
   providedIn: 'root',

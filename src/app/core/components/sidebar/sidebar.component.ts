@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { BoardService } from './../../../../features/board/pages/services/board.service';
-import { Board } from '../../../../features/board/pages/interface/board.interface';
+import { BoardService } from '../../../features/board/services/board.service';
+import { Board } from '../../../features/board/interface/board.interface';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { CreateBoardComponent } from '../../../../features/board/pages/components/create-board/create-board.component';
+import { CreateBoardComponent } from '../../../features/board/components/create-board/create-board.component';
 
 
 @Component({
