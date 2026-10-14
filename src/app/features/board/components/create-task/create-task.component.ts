@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Task } from '../../interface/board.interface';
@@ -39,7 +39,7 @@ export class CreateTaskComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-    const id = Number(this.router.url.split('/').pop());
+    const id = this.boardService.getCurrentBoardId()
     const board = this.boardService.getBoardById(id);
 
     if (board && board.columns?.length) {
@@ -101,7 +101,7 @@ export class CreateTaskComponent implements OnInit, OnChanges {
   //Validates the form and subtasks
   onCreateTask(): void {
 
-    const isSubtasksValid = this.subtasks.length > 0 &&
+    const isSubtasksValid = this.subtasks.length === 0 ||
       this.subtasks.every(subtask => subtask.trim().length > 0);
 
     if (!this.taskForm.valid || !isSubtasksValid) {
@@ -109,7 +109,7 @@ export class CreateTaskComponent implements OnInit, OnChanges {
       return;
     }
 
-    const boardId = Number(this.router.url.split('/').pop());
+    const boardId = this.boardService.getCurrentBoardId()
     if (this.taskToEdit) {
       this.boardService.updateTask(
         boardId,

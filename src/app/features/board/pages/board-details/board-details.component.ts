@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardService } from '../../services/board.service';
 import { Board, Task } from '../../interface/board.interface';
 import { TaskCardDetailsComponent } from '../../components/task-card-details/task-card-details.component';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-board-details',
@@ -10,7 +11,7 @@ import { TaskCardDetailsComponent } from '../../components/task-card-details/tas
   templateUrl: './board-details.component.html',
   styleUrl: './board-details.component.scss',
 })
-export class BoardDetailsComponent implements OnInit {
+export class BoardDetailsComponent implements OnInit, OnDestroy{
 
   constructor(
     private boardService: BoardService,
@@ -24,7 +25,8 @@ export class BoardDetailsComponent implements OnInit {
   selectedTask: Task | null = null;
   isTaskDetailOpen = false;
 
-
+  private boardsChangedSub?:Subscription;
+ 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.currentBoardId = Number(params.get('id'));
@@ -32,11 +34,14 @@ export class BoardDetailsComponent implements OnInit {
     });
 
 
-    this.boardService.boardsChanged.subscribe(() => {
+    this.boardsChangedSub = this.boardService.boardsChanged.subscribe(() => {
       this.reloadBoard();
     });
   }
 
+ ngOnDestroy(): void {
+    this.boardsChangedSub?.unsubscribe();
+  }
 
   reloadBoard(): void {
     if (this.currentBoardId === null) return;

@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BoardService } from '../../../features/board/services/board.service';
 import { Board } from '../../../features/board/interface/board.interface';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CreateBoardComponent } from '../../../features/board/components/create-board/create-board.component';
+import {StorageService} from '../../services/storage.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private boardService: BoardService,
     private router: Router,
+    private storageService: StorageService,
   ) { }
 
 
@@ -43,23 +45,16 @@ export class SidebarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.boardList = this.boardService.getBoards();
-
-    const id = Number(this.router.url.split('/').pop());
-    this.activeBoardId = id;
-
+this.updateStateBoard()
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        const id = Number(this.router.url.split('/').pop());
-
-        this.activeBoardId = id;
-        this.boardList = this.boardService.getBoards();
+        this.updateStateBoard()
       });
 
 
 
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = this.storageService.getItem('theme');
 
     if (savedTheme === 'light') {
       this.isDarkMode = false;
@@ -70,7 +65,10 @@ export class SidebarComponent implements OnInit {
     }
 
   }
-
+private updateStateBoard(): void {
+  this.activeBoardId = this.boardService.getCurrentBoardId();
+  this.boardList = this.boardService.getBoards();
+}
 
 
   // toggle light and dark theme
@@ -80,10 +78,10 @@ export class SidebarComponent implements OnInit {
 
     if (this.isDarkMode) {
       document.documentElement.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
+      this.storageService.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.add('light');
-      localStorage.setItem('theme', 'light');
+      this.storageService.setItem('theme', 'light');
     }
 
   }

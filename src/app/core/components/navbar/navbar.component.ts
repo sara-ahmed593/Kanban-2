@@ -1,9 +1,10 @@
 import { BoardService } from '../../../features/board/services/board.service';
 import { Board } from '../../../features/board/interface/board.interface';
-import { Router } from '@angular/router';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { CreateTaskComponent } from '../../../features/board/components/create-task/create-task.component';
 import { CreateBoardComponent } from '../../../features/board/components/create-board/create-board.component';
+import {filter, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { CreateBoardComponent } from '../../../features/board/components/create-
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private boardService: BoardService,
@@ -27,30 +28,36 @@ export class NavbarComponent {
   isDotsMenuOpen = false;
   isTaskModalOpen = false;
 
+   private routerSub?:Subscription;
+    private boardsChangedSub?:Subscription;
 
   ngOnInit(): void {
     this.updateBoardName();
 
-    this.router.events.subscribe(() => {
+    this.routerSub = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.updateBoardName();
     });
 
-    this.boardService.boardsChanged.subscribe(() => {
+  this.boardsChangedSub = this.boardService.boardsChanged.subscribe(() => {
       this.updateBoardName();
     });
   }
 
+  ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+    this.boardsChangedSub?.unsubscribe();
+  }
+
   //show selected board name
   updateBoardName(): void {
-    const url = this.router.url;
-    const id = Number(url.split('/').pop());
+    const id = this.boardService.getCurrentBoardId()
     const board = this.boardService.getBoardById(id);
     this.boardName = board?.name ?? '';
   }
 
 
   //toggle the dots menu
-  toggleMenu(): void {
+   toggleDotsMenu(): void {
     this.isDotsMenuOpen = !this.isDotsMenuOpen;
   }
 
@@ -66,11 +73,14 @@ export class NavbarComponent {
 
   // delete the selected board
   deleteBoard(): void {
-    const board = this.boardService.selectedBoard;
-    if (!board) return;
+  const id = this.boardService.getCurrentBoardId();
+  const board = this.boardService.getBoardById(id);
+      if (!board) return;
 
+        const confirmed = confirm(`Are you sure you want to delete "${board.name}"? `);
+  if (!confirmed) return;
 
-    this.boardService.deleteSelectedBoard();
+    this.boardService.deleteSelectedBoard(id);
     this.isDotsMenuOpen = false;
 
     const remainingBoards = this.boardService.getBoards();
@@ -85,7 +95,7 @@ export class NavbarComponent {
 
   // open edit board menu 
   openEditBoard(): void {
-    const id = Number(this.router.url.split('/').pop());
+    const id = this.boardService.getCurrentBoardId()
     this.boardToEdit = this.boardService.getBoardById(id);
     this.isBoardModalOpen = true;
     this.isDotsMenuOpen = false;

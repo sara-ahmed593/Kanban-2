@@ -1,6 +1,6 @@
 import { Board } from '../../interface/board.interface';
 import { BoardService } from '../../services/board.service';
-import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-create-board',

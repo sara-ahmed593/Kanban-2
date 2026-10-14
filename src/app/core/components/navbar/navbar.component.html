@@ -17,11 +17,11 @@
         }
         @if (isTaskModalOpen) {
 
-        <app-create-task [isOpen]="isTaskModalOpen" (closeModal)="toggleTaskModal()" />
+        <app-create-task (closeModal)="toggleTaskModal()" />
 
         }
 
-        <button class="navbar__menu-button" aria-label="dots-btn" (click)="toggleMenu()">
+        <button class="navbar__menu-button" aria-label="dots-btn" (click)="toggleDotsMenu()">
             <img class="navbar__menu-button-icon" src="assets/menu.webp" alt="menu">
         </button>
         <div class="navbar__menu-wrapper">

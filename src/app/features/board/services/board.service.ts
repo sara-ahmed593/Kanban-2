@@ -1,7 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Board, Task } from '../interface/board.interface';
 import { StorageService } from '../../../core/services/storage.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ export class BoardService {
 
   constructor(
     private storageService: StorageService,
+    private router: Router
 
   ) { }
 
@@ -61,13 +63,11 @@ export class BoardService {
   }
 
   // Remove the selected board 
-  deleteSelectedBoard(): void {
-    if (!this.selectedBoard) {
-      return;
-    }
+  deleteSelectedBoard(id: number): void {
+    this.loadBoards(); 
 
     this.boards = this.boards.filter(
-      board => board.id !== this.selectedBoard!.id
+      board => board.id !== id
     );
     this.saveBoards();
 
@@ -235,4 +235,10 @@ export class BoardService {
     this.saveBoards();
 
   }
+
+  getCurrentBoardId() {
+  const url = this.router.url;
+  const id = Number(url.split('/').pop());
+ return id
+}
 }

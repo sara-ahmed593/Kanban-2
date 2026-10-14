@@ -50,7 +50,7 @@
             <select id="task-status" class="modal__status-select" [value]="task.status"
                 (change)="onStatusChange($event)">
                 @for (option of statusOptions; track option) {
-                <option class="modal__select__option" [value]="option">{{ option }}</option>
+                <option class="modal__select__option" [value]="option"  [selected]="option === task.status">{{ option }}</option>
                 }
             </select>
         </div>

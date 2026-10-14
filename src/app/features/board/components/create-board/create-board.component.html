@@ -11,7 +11,7 @@
             <input type="text" id="board-name" formControlName="name" class="modal__input" placeholder="Web Design" />
             @if(namecontrol?.errors && namecontrol?.touched){
             @if(namecontrol?.getError("required")){
-            <span class="modal__error">Full Name is required.</span>
+            <span class="modal__error">Board Name is required.</span>
             }
             @else if(namecontrol?.getError("minlength")){
             <span class="modal__error">Name must be at least 3 characters</span>
